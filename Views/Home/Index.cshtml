@@ -1,0 +1,102 @@
+﻿@model EpayApp.Models.AuthoriseCardRequestModel
+@{
+    ViewData["Title"] = "Pay with Card";
+}
+
+
+<tr>
+    <th>
+        <h1>
+            Pay with Card
+            <img class="img" src="@Url.Content("~/Images/Visa.png")" alt="Images" />
+            <img class="img" src="@Url.Content("~/Images/Mastercard.png")" alt="Images" />
+            <img class="img" src="@Url.Content("~/Images/Amex.png")" alt="Images" />
+        </h1>
+    </th>
+</tr>
+  
+
+@using (Html.BeginForm("Create", "AuthoriseCardRequestModels", new { id = "myForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly">
+        <span>Please fix the following errors</span>
+    </div>
+
+    <div>
+        <hr />
+
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(x => x.CardHolderName)
+                @Html.TextBoxFor(x => x.CardHolderName, new { @id = "cardName", @class = "form-control" })
+                <span asp-validation-for="CardHolderName"></span>
+            </dt>
+        </dl>
+
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(x => x.CardNumber)
+                @Html.TextBoxFor(x => x.CardNumber, new { @id = "cardNumber", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.CardNumber)
+            </dt>
+        </dl>
+
+        <dl class="row">
+            <dt class="col-3">
+                @Html.DisplayNameFor(x => x.ExpiryMonth)
+                @Html.TextBoxFor(x => x.ExpiryMonth, new { @id = "expiryDateMonth", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ExpiryMonth)
+            </dt>
+        </dl>
+        <dl class="row">
+            <dt class="col-3">
+                @Html.DisplayNameFor(x => x.ExpiryYear)
+                @Html.TextBoxFor(x => x.ExpiryYear, new { @id = "expiryDateYear", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ExpiryYear)
+            </dt>
+        </dl>
+
+        <dl class="row">
+            <dt class="col-3">
+                @Html.DisplayNameFor(x => x.Cvv)
+                @Html.TextBoxFor(x => x.Cvv, new { @id = "cvv", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Cvv)
+            </dt>
+        </dl>
+        <dl class="row">
+            <dt class="col-3">
+                @Html.DisplayNameFor(x => x.Currency)
+                @Html.TextBoxFor(x => x.Currency, new { @id = "currency", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Currency)
+            </dt>
+        </dl>
+        <dl class="row">
+            <dt class="col-3">
+                @Html.DisplayNameFor(x => x.Amount)
+                @Html.TextBoxFor(x => x.Amount, new { @id = "amount", @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Amount)
+            </dt>
+        </dl>
+
+    </div>
+
+    <br />
+
+    <p>
+        <button id="btnPayNow" class="alert-info" type="submit"> Pay Now </button>
+    </p>
+    
+    }
+
+    @if (ViewBag.Result == true)
+    {
+        <div> <label>Payment Successful </label> </div>
+        <div> <label>Your Token: </label> @ViewBag.TransactionId </div>
+    }
+
+    @if (ViewBag.Result == false)
+    {
+        <div><label> Payment Unsuccessful </label> </div>
+    }
